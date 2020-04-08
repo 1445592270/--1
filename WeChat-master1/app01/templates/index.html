@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>欢迎 {{ request.session.user_info.name }} 使用</h1>
+
+<h3>扫描关注（用于消息提示，请必须关注）</h3>
+{#<img style="width: 250px;" src="/static/001.jpg" alt="">#}
+<img style="width: 250px;" src="/static/01.png" alt="">
+
+<h3>获取微信ID</h3>
+<div id="qrcode" style="width: 250px;height: 250px;background-color: white;">
+
+</div>
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/jquery.qrcode.min.js"></script>
+<script src="/static/js/qrcode.js"></script>
+<script>
+    $(function () {
+        get_qcode();
+    });
+
+    function get_qcode() {
+        $.ajax({
+            url: '/get_qrcode/',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (arg) {
+                //arg.data 就是访问获取用户基本信息接口的url地址
+                // 需要接收3个参数
+                $('#qrcode').empty().qrcode({text: arg.data});
+                console.log(arg.data);
+            }
+        })
+
+    }
+</script>
+
+</body>
+</html>

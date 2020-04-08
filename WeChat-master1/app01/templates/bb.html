@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <title>编辑</title>
+</head>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+    {% for i in  user_list%}
+    <tr>
+{#        用户id:<td>&nbsp{{ i.id }}</td>#}
+        <div>
+            用户姓名:<input type="text" value="{{ i.id }}" name="id" >
+        </div>
+    </tr>
+    <tr>
+        <div>
+            用户姓名:<input type="text" value="{{ i.name }}" name="name">
+        </div>
+    </tr>
+    <tr>
+        <div>
+            用户密码:<input type="text" value="{{ i.pwd }}" name="pwd">
+        </div>
+    </tr>
+    <tr>
+        <div>
+            用户微信id:<input type="text" value="{{ i.wx_id }}" name="wx_id">
+        </div>
+    </tr>
+    <button id="{{ i.id }}" onclick="updat(this)">提交</button>
+    {% endfor %}
+
+</form>
+<script>
+    function updat(req) {
+        var updat_id = req.id;
+        console.log(updat_id);
+        url = '/update/';
+        send_data = {
+            'updat_id':updat_id,
+            "csrfmiddlewaretoken":'{{ csrf_token }}'
+        };
+        $.ajax(
+            {
+                url:url,
+                type:'post',
+                data:send_data,
+                success:function (data) {
+                    console.log(data);
+                    alert('update success' );
+                    {#window.location.reload()#}
+                },
+                error:function (err) {
+                    console.log(err)
+                }
+            }
+        )
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/js/slide.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+
+    {% for user_obj in user_queryset %}
+        <div>
+    <tr>
+        <td>{{ user_obj.id }}</td>
+        <td>{{ user_obj.name }}</td>
+        <td>{{ user_obj.pwd }}</td>
+        <td>{{ user_obj.wx_id }}</td>
+        <td>
+            <a href="/update/{{ user_obj.id }}" class="btn btn-primary btn-sm" >编辑</a>
+            <a href="#" class="btn btn-danger btn-sm cancel" id="{{ user_obj.pk }}" onclick="delete_idd(this)">删除</a>
+        </td>
+    </tr>
+        </div>
+    {% endfor %}
+</form>
+<script>
+    function delete_idd(req) {
+        var delete_id = req.id;
+        console.log(delete_id);
+        url = '/sweetajax/';
+        send_data = {
+            'delete_id':delete_id,
+            "csrfmiddlewaretoken":'{{ csrf_token }}'
+        };
+        $.ajax(
+            {
+                url:url,
+                type:'post',
+                data:send_data,
+                success:function (data) {
+                    console.log(data);
+                    alert('delete success' );
+                    window.location.reload()
+                },
+                error:function (err) {
+                    console.log(err)
+                }
+            }
+        )
+    }
+    </script>
+</body>
+</html>

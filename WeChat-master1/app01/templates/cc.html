@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>result</title>
+</head>
+<body>
+    共有:<span>{{ count }}</span>进行过更新
+    {% for i in update_name %}
+        <p>{{ i }}</p>
+    {% endfor %}
+    <a href="/sweetajax/">返回详情页面</a>
+</body>
+</html>
